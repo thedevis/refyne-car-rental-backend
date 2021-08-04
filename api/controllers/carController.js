@@ -14,11 +14,33 @@ async function CarRegistration(req, res, next) {
   }
 }
 async function CarUpdate(req, res, next) {
-  res.json({ message: "CarUpdate" });
+    const logger = Container.get("logger");
+    try{
+        let carId = req.params.id;
+        let data = req.body;
+        const CarService = Container.get("CarService");
+        const carServiceInstance = new CarService();
+        const carObject = await carServiceInstance.update(carId,data);
+        res.status(202).json({message:'updated successfully'});
+
+    } catch(e){
+        logger.error(`Error while adding registering car - ${e.message}`);
+        return next(e);
+    }
 }
 async function DeleteCar(req, res, next) {
-  res.json({ message: "DeleteCar" });
-}
+    const logger = Container.get("logger");
+    try{
+        let carId = req.params.id;
+        const CarService = Container.get("CarService");
+        const carServiceInstance = new CarService();
+        const response = await carServiceInstance.delete(carId);
+        res.status(200).json(response);
+
+    } catch(e){
+        logger.error(`Error while adding registering car - ${e.message}`);
+        return next(e);
+    }}
 
 async function GetCarDetail(req, res, next) {
   res.json({ message: "GetCarDetail" });
