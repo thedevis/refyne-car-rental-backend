@@ -11,7 +11,8 @@ module.exports = function(sequelize, DataTypes) {
     car_license_number: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
+      unique: true
     },
     manufacturer: {
       type: DataTypes.STRING(255),

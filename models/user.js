@@ -8,14 +8,11 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    userId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false
-    },
     mobile_number: {
       type: DataTypes.STRING(11),
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
+      unique: true
     },
     name: {
       type: DataTypes.STRING(255),

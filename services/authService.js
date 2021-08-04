@@ -12,21 +12,25 @@ class AuthService {
   constructor() {
     this.logger = Container.get("logger");
     this.eventDispatcher = EventDispatcherInterface;
-    this.db = Container.get("db");
+    this.UserModel = Container.get("db").User;
   }
   async SignUp(userInputDTO) {
-    const User = this.db.User;
     const salt = randomBytes(32);
     this.logger.silly("Hashing password");
     const hashedPassword = await argon2.hash(userInputDTO.password, { salt });
     this.logger.silly("Creating user db record");
-    const userRecord = await User.create({
+    const userRecord = await this.UserModel.create({
       ...userInputDTO,
       salt: salt.toString("hex"),
       password: hashedPassword,
     });
     this.logger.silly("Generating JWT");
-    const token = this._generateToken(userRecord);
+    const user = {
+      id:userRecord['id'],
+      name:userRecord.name, 
+      mobile_number:userRecord.mobile_number 
+    }
+    const token = this._generateToken(user);
 
     if (!userRecord) {
       throw new Error("User cannot be created");
@@ -35,22 +39,12 @@ class AuthService {
     this.logger.silly("sending welcome email");
 
     //this.eventDispatcher.dispatch(events.user.signUp, { user: userRecord });
-
     //TODO: implement logic of sending email
 
-    /**
-     * @TODO This is not the best way to deal with this
-     * There should exist a 'Mapper' layer
-     * that transforms data from layer to layer
-     * but that's too over-engineering for now
-     */
-    const user = userRecord.toObject();
-    delete user.password;
-    delete user.salt;
     return { user, token };
   }
-  async SignIn(email, password) {
-    const userRecord = await this.userModel.findOne({ email });
+  async SignIn(mobile_number, password) {
+    const userRecord = await this.UserModel.findOne({where:{mobile_number:mobile_number}});
     if (!userRecord) {
       throw new Error("User not registered");
     }
@@ -60,16 +54,15 @@ class AuthService {
     this.logger.silly("Checking password");
     const validPassword = await argon2.verify(userRecord.password, password);
     if (validPassword) {
-      this.logger.silly("Password is valid!");
+      this.logger.info("Password is valid!");
       this.logger.silly("Generating JWT");
-      const token = this._generateToken(userRecord);
 
-      const user = userRecord.toObject();
-      Reflect.deleteProperty(user, "password"); //same as delete user.password =>Reflect work good  with proxies
-      Reflect.deleteProperty(user, "salt");
-      /**
-       * Easy as pie, you don't need passport.js anymore :)
-       */
+      const user = {
+        id:userRecord['id'],
+        name:userRecord.name, 
+        mobile_number:userRecord.mobile_number 
+      }
+      const token = this._generateToken(user);
       return { user, token };
     } else {
       throw new Error("Invalid Password");
@@ -97,8 +90,7 @@ class AuthService {
     this.logger.silly(`Sign JWT for userId: ${user._id}`);
     return jwt.sign(
       {
-        _id: user._id, // We are gonna use this in the middleware 'isAuth'
-        role: user.role,
+        id: user.id, // We are gonna use this in the middleware 'isAuth'
         name: user.name,
         exp: exp.getTime() / 1000,
       },

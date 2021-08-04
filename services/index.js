@@ -8,7 +8,11 @@ module.exports = [
     service:require('./authService')
   },
   {
-    name:'',
+    name:'CarService',
     service:require('./carService')
+  },
+  {
+    name:'BookingService',
+    service:require('./bookingService')
   },
 ];
