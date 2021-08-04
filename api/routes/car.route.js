@@ -7,14 +7,14 @@ const route = Router();
 module.exports = (app) => {
   app.use("/car", route);
   route.post('/',carController.CarRegistration);
-  route.patch('/:id',carController.CarUpdate)
-  route.delete('/:id',carController.DeleteCar)
+  route.patch('/:carLicenseNumber',carController.CarUpdate)
+  route.delete('/:carLicenseNumber',carController.DeleteCar)
   route.get(
     "/search-cars",
     carController.CarSearch
   );
   route.get(
-    "/:carId/calculate-price",
-    carController.GetCarPrice
+    "/:carLicenseNumber/calculate-price",
+    carController.GetPriceEstimation
   );
 };

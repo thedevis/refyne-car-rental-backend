@@ -7,40 +7,38 @@ async function CarRegistration(req, res, next) {
     const carServiceInstance = new CarService();
     const carObject = await carServiceInstance.register(input);
     res.status(201).json(carObject);
-
   } catch (e) {
     logger.error(`Error while adding registering car - ${e.message}`);
     return next(e);
   }
 }
 async function CarUpdate(req, res, next) {
-    const logger = Container.get("logger");
-    try{
-        let carId = req.params.id;
-        let data = req.body;
-        const CarService = Container.get("CarService");
-        const carServiceInstance = new CarService();
-        const carObject = await carServiceInstance.update(carId,data);
-        res.status(202).json({message:'updated successfully'});
-
-    } catch(e){
-        logger.error(`Error while adding registering car - ${e.message}`);
-        return next(e);
-    }
+  const logger = Container.get("logger");
+  try {
+    let carLicenseNumber = req.params.c;
+    let data = req.body;
+    const CarService = Container.get("CarService");
+    const carServiceInstance = new CarService();
+    const carObject = await carServiceInstance.update(carLicenseNumber, data);
+    res.status(202).json({ message: "updated successfully" });
+  } catch (e) {
+    logger.error(`Error while adding registering car - ${e.message}`);
+    return next(e);
+  }
 }
 async function DeleteCar(req, res, next) {
-    const logger = Container.get("logger");
-    try{
-        let carId = req.params.id;
-        const CarService = Container.get("CarService");
-        const carServiceInstance = new CarService();
-        const response = await carServiceInstance.delete(carId);
-        res.status(200).json(response);
-
-    } catch(e){
-        logger.error(`Error while adding registering car - ${e.message}`);
-        return next(e);
-    }}
+  const logger = Container.get("logger");
+  try {
+    let carLicenseNumber = req.params.carLicenseNumber;
+    const CarService = Container.get("CarService");
+    const carServiceInstance = new CarService();
+    const response = await carServiceInstance.delete(carLicenseNumber);
+    res.status(200).json(response);
+  } catch (e) {
+    logger.error(`Error while adding registering car - ${e.message}`);
+    return next(e);
+  }
+}
 
 async function GetCarDetail(req, res, next) {
   res.json({ message: "GetCarDetail" });
@@ -48,8 +46,22 @@ async function GetCarDetail(req, res, next) {
 async function CarSearch(req, res, next) {
   res.json({ message: "CarSearch" });
 }
-async function GetCarPrice(req, res, next) {
-  res.json({ message: "GetCarPrice" });
+async function GetPriceEstimation(req, res, next) {
+  const logger = Container.get("logger");
+  try {
+    let carLicenseNumber = req.params.carLicenseNumber;
+    let queryParams = req.query;
+    let toDateTime = parseInt(queryParams.toDateTime);
+    let fromDateTime = parseInt(queryParams.fromDateTime);
+
+    const CarService = Container.get("CarService");
+    const carServiceInstance = new CarService();
+    const priceDetail = await carServiceInstance.getPriceEstimation({carLicenseNumber, fromDateTime, toDateTime });
+    res.status(200).json(priceDetail);
+  } catch (e) {
+    logger.error(`Error while adding registering car - ${e.message}`);
+    return next(e);
+  }
 }
 
 module.exports = {
@@ -58,5 +70,5 @@ module.exports = {
   DeleteCar,
   GetCarDetail,
   CarSearch,
-  GetCarPrice,
+  GetPriceEstimation,
 };
