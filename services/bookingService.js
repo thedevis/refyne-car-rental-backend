@@ -2,11 +2,23 @@ const { Container } = require("typedi");
 const config = require("../config");
 
 class BookingService {
-  constructor(userId) {
+  constructor() {
     this.logger = Container.get("logger");
     this.db = Container.get("db");
-    this.UserService = Container.get("UserService");
-    this.userId = userId;
+    this.CarService = Container.get('CarService');
+  }
+  async booking({carId,toDateTime,fromDateTime,userId}){
+    const carServiceInstance = new this.CarService();
+    let carDetail = carServiceInstance.getCarById(carId);
+    const result = await carServiceInstance.isCarAvailableForBooking({carId,toDateTime,fromDateTime});
+    if(!result) throw new Error(`Car is not available at give time slot`);
+    let bookingResult = await this.db.Booking.create({
+      car_id:carId,
+      user_id:userId,
+      booking_datetime_start:fromDateTime,
+      booking_datetime_end:toDateTime
+    })
+    return {bookingResult}
   }
 
   async getBookings() {

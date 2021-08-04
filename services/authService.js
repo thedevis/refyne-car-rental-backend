@@ -71,6 +71,9 @@ class AuthService {
   async LogOut(userId){
     
   }
+  async ForgetPassword(){
+    //forget password logic
+  }
 
   //private method
   _generateToken(user) {

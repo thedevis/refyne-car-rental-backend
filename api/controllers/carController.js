@@ -49,14 +49,14 @@ async function CarSearch(req, res, next) {
 async function GetPriceEstimation(req, res, next) {
   const logger = Container.get("logger");
   try {
-    let carLicenseNumber = req.params.carLicenseNumber;
+    let carId = req.params.carId;
     let queryParams = req.query;
     let toDateTime = parseInt(queryParams.toDateTime);
     let fromDateTime = parseInt(queryParams.fromDateTime);
 
     const CarService = Container.get("CarService");
     const carServiceInstance = new CarService();
-    const priceDetail = await carServiceInstance.getPriceEstimation({carLicenseNumber, fromDateTime, toDateTime });
+    const priceDetail = await carServiceInstance.getPriceEstimation({carId, fromDateTime, toDateTime });
     res.status(200).json(priceDetail);
   } catch (e) {
     logger.error(`Error while adding registering car - ${e.message}`);
