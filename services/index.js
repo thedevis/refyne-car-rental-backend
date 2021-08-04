@@ -1,6 +1,14 @@
 module.exports = [
   {
     name: "UserService",
-    service: require('./UserService'),
+    service: require('./userService'),
+  },
+  {
+    name:'AuthService',
+    service:require('./authService')
+  },
+  {
+    name:'',
+    service:require('./carService')
   },
 ];

@@ -2,14 +2,20 @@ const { celebrate, Joi } = require("celebrate");
 const { Router } = require("express");
 const { Container } = require("typedi");
 const middlewares = require("../middlewares");
-const userController = require('../controllers/user');
-
+const authController = require('../controllers/authController');
 const route = Router();
-
 module.exports = (app) => {
-  app.use("/user", route);
+  app.use("/auth", route);
   route.post(
     "/signup",
-    userController.SignupController
+    authController.SignUp
+  );
+  route.post(
+    "/login",
+    authController.SignIn
+  );
+  route.post(
+    "/logout",
+    authController.Logout
   );
 };

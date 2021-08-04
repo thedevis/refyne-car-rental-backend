@@ -1,5 +1,5 @@
 const { Container } = require("typedi");
-async function SignupController (req, res, next) {
+async function SignUp (req, res, next) {
     const logger = Container.get("logger");
     logger.debug("Calling Sign-Up endpoint with body: %o", req.body);
     try {
@@ -18,6 +18,14 @@ async function SignupController (req, res, next) {
       return next(e);
     }
 }
+async function SignIn(req,res,next){
+    res.json({message:'Sign in'});
+}
+async function Logout(req,res,next){
+    res.json({message:'logout operation'})
+}
 module.exports={
-    SignupController
+    SignUp,
+    SignIn,
+    Logout
 }

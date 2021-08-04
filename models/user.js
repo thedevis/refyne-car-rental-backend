@@ -13,8 +13,9 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     mobile_number: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false
+      type: DataTypes.STRING(11),
+      allowNull: false,
+      defaultValue: ''
     },
     name: {
       type: DataTypes.STRING(255),
@@ -26,6 +27,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     salt: {
       type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
       allowNull: true
     }
   }, {

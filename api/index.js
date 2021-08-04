@@ -1,7 +1,13 @@
 const { Router } = require('express');
-const userRoute = require('./routes/user');
+const authRequestHandler = require('./routes/auth.route');
+const bookingRequestHandler = require('./routes/booking.route');
+const userRequestHandler = require('./routes/user.route');
+const carRequestHandler = require('./routes/car.route');
 module.exports=()=>{
     const app = Router();
-    userRoute(app);
+    authRequestHandler(app);
+    bookingRequestHandler(app);
+    userRequestHandler(app);
+    carRequestHandler(app);
     return app;
 }
