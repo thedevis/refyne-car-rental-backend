@@ -1,9 +1,7 @@
 const { Router } = require('express');
-const todo = require('./routes/todo');
-const auth = require('./routes/auth');
+const userRoute = require('./routes/user');
 module.exports=()=>{
     const app = Router();
-    todo(app);
-    auth(app);
+    userRoute(app);
     return app;
 }

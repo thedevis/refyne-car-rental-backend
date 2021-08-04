@@ -24,7 +24,12 @@ const envVarsSchema = joi.object({
         .truthy('true')
         .falsy('false')
         .default(true),
-    JWT_SECRET_KEY:joi.string().required()
+    JWT_SECRET_KEY:joi.string().required(),
+    MYSQL_DATABASE:joi.string().required(),
+    MYSQL_USER_NAME:joi.string().required(),
+    MYSQL_HOST:joi.string().required(),
+    MYSQL_PORT:joi.number().required(),
+
 }).unknown()
     .required()
 
@@ -36,9 +41,16 @@ module.exports = {
 
     //web services port number
     port: parseInt(process.env.PORT, 10),
+    mysql:{
+        host:process.env.MYSQL_HOST,
+        username:process.env.MYSQL_USER_NAME,
+        password:process.env.MYSQL_PASSWORD || '',
+        database:process.env.MYSQL_DATABASE,
+        port:parseInt(process.env.MYSQL_PORT)
+    },
 
     //mongodb connection string
-    mongoConnectionString: process.env.MONGODB_URI,
+    // mongoConnectionString: process.env.MONGODB_URI,
 
     /**
      * Used by winston logger

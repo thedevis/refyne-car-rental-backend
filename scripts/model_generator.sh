@@ -1,0 +1,1 @@
+sequelize-auto -o "./models" -d car_rental_system -h localhost -u root -p 3306   -e mysql

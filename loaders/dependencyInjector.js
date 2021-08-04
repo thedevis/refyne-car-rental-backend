@@ -1,12 +1,13 @@
 const { Container } = require('typedi');
 const formData = require('form-data');
 const LoggerInstance = require('./logger');
-module.exports = ({models,services}) => {
+module.exports = ({database,models,services}) => {
     try {
+        Container.set('db', database)
         Container.set('logger',LoggerInstance);
-        models.forEach(m=>{
-            Container.set(m.name,m.model);
-        })
+        // models.forEach(m=>{
+        //     Container.set(m.name,m.model);
+        // })
         services.forEach(s=>{
             Container.set(s.name, s.service)
         })
