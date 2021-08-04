@@ -6,6 +6,7 @@ const carController = require('../controllers/carController');
 const route = Router();
 module.exports = (app) => {
   app.use("/", route);
+  route.post('/car/add',carController.CarRegistration);
   route.get(
     "/search-cars",
     carController.CarSearch
