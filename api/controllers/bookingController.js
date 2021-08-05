@@ -8,7 +8,10 @@ async function CarBooking(req, res, next) {
     const BookingService = Container.get("BookingService");
     const bookingServiceInstance = new BookingService();
     let _bookingDetail = await bookingServiceInstance.booking(bookingInput);
-    res.status(201).json(_bookingDetail);
+    if(_bookingDetail)
+        res.status(201).json(_bookingDetail);
+    else
+        res.status(200).json({message:'this car is not available for booking for given time slot'}); 
   } catch (error) {
     logger.error(`Error while booking a car - ${error.message}`);
     return next(error);

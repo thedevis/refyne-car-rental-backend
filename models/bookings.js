@@ -2,6 +2,12 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('bookings', {
+    id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     car_id: {
       type: DataTypes.INTEGER(11),
       allowNull: true
@@ -15,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     booking_datetime_end: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.DATE,
       allowNull: true
     },
     status: {
