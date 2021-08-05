@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.23)
 # Database: car_rental_system
-# Generation Time: 2021-08-05 04:25:04 +0000
+# Generation Time: 2021-08-05 05:51:55 +0000
 # ************************************************************
 
 
@@ -78,6 +78,7 @@ CREATE TABLE `user` (
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `salt` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -87,6 +88,9 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 
+INSERT INTO `user` (`id`, `mobile_number`, `name`, `password`, `salt`, `status`, `createdAt`, `updatedAt`)
+VALUES
+	(1,'8860279717','Praveen','$argon2i$v=19$m=4096,t=3,p=1$q8LRPDVHVUa4s5kMGdqdqxGLgXwMNxKUk9olxo/TAoo$yfFpru1Mnc/NhzzUUiwNGK1Zpsc2sE3GVwn+cAK3P6k','abc2d13c35475546b8b3990c19da9dab118b817c0c37129493da25c68fd3028a',0,'2021-08-05 00:07:22','2021-08-05 11:20:30');
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
