@@ -19,4 +19,5 @@ module.exports = (app) => {
     carController.GetPriceEstimation
   );
   route.post('/book',bookingController.CarBooking)
+  route.get('/bookings',bookingController.FetchAllBookings)
 };

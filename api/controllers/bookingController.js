@@ -8,18 +8,29 @@ async function CarBooking(req, res, next) {
     const BookingService = Container.get("BookingService");
     const bookingServiceInstance = new BookingService();
     let _bookingDetail = await bookingServiceInstance.booking(bookingInput);
-    if(_bookingDetail)
-        res.status(201).json(_bookingDetail);
+    if (_bookingDetail) res.status(201).json(_bookingDetail);
     else
-        res.status(200).json({message:'this car is not available for booking for given time slot'}); 
+      res
+        .status(200)
+        .json({
+          message: "this car is not available for booking for given time slot",
+        });
   } catch (error) {
     logger.error(`Error while booking a car - ${error.message}`);
     return next(error);
   }
 }
 async function FetchAllBookings(req, res, next) {
-  //return a list of users who have booked the car along with their durations.
-  res.json({ message: "FetchAllBookings" });
+  let logger = Container.get("logger");
+  try {
+    const BookingService = Container.get("BookingService");
+    const bookingServiceInstance = new BookingService();
+    let _bookings = await bookingServiceInstance.getBookings({});
+    return res.json(_bookings);
+  } catch (error) {
+    logger.error(`Error while fetching  all bookings - ${error.message}`);
+    return next(error);
+  }
 }
 
 module.exports = {

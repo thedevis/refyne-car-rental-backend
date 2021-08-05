@@ -8,8 +8,8 @@ const route = Router();
 
 module.exports = (app) => {
   app.use("/user", route);
-  // route.get(
-  //   "/:userId/bookings/",
-  //   userController.GetUserBookings
-  // );
+  route.get(
+    "/:userId/bookings/",
+    userController.GetUserBooking
+  );
 };
