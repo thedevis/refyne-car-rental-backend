@@ -9,12 +9,20 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     car_id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
+      type: DataTypes.INTEGER(11).UNSIGNED,
+      allowNull: true,
+      references: {
+        model: 'car',
+        key: 'id'
+      }
     },
     user_id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
+      type: DataTypes.INTEGER(11).UNSIGNED,
+      allowNull: true,
+      references: {
+        model: 'user',
+        key: 'id'
+      }
     },
     booking_datetime_start: {
       type: DataTypes.DATE,
